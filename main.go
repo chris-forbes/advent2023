@@ -19,7 +19,9 @@ func main() {
 
 	if *dayOne {
 		sum := day_one.FindAndSum(internal.ParseToStringArray(*inputFile))
-		log.Printf("Day one answer: %d", sum)
+		log.Printf("Day one A answer: %d", sum)
+		sumB := day_one.FindAndSumWords(internal.ParseToStringArray(*inputFile))
+		log.Printf("Day one B answer: %d", sumB)
 	}
 
 }

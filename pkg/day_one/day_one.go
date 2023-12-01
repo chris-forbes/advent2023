@@ -1,9 +1,16 @@
 package day_one
 
 import (
+	"math"
 	"regexp"
 	"strconv"
+	"strings"
 )
+
+var _smallNumbers = []string{
+	"one", "two", "three", "four",
+	"five", "six", "seven", "eight", "nine",
+}
 
 func FirstAndLast(value string) string {
 	if value == "" {
@@ -28,4 +35,41 @@ func FindAndSum(values *[]string) int {
 		sum += intVal
 	}
 	return sum
+}
+
+func FindAndSumWords(values *[]string) int {
+	var updatedValues []string
+	for _, v := range *values {
+		var replacedValue = replaceWordWithNumber(v)
+		updatedValues = append(updatedValues, replacedValue)
+	}
+	return FindAndSum(&updatedValues)
+}
+func replaceWordWithNumber(line string) string {
+	var replaced = line
+	var firstMatchIndex = math.MaxInt
+	var lastMatch = math.MaxInt
+	for i, num := range _smallNumbers {
+		// Check if the current element is a substring of the target string
+		if strings.Contains(replaced, num) {
+			var index = strings.Index(replaced, num)
+			if index < lastMatch {
+				lastMatch = index
+				firstMatchIndex = i
+			}
+		}
+	}
+
+	for i, v := range _smallNumbers {
+		if i == firstMatchIndex {
+			replaced = strings.Replace(replaced, v, strconv.Itoa(i+1), 1)
+			break
+		}
+	}
+
+	for i, v := range _smallNumbers {
+		replaced = strings.Replace(replaced, v, strconv.Itoa(i+1), 1)
+	}
+
+	return replaced
 }
